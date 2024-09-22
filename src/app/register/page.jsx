@@ -3,6 +3,10 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
+import { useRouter } from "next/navigation";
+
+import { useSession } from "next-auth/react";
+
 
 function RegisterPage() {
     const [name, setName] = useState("");
@@ -12,6 +16,11 @@ function RegisterPage() {
     const [error, setError] = useState("");
 
     const [success, setSuccess] = useState("");
+
+    const router = useRouter()
+    const { data: session, status } = useSession()
+
+    if (status == "authenticated") router.replace("/welcome");
 
     const onSubmitForm = async (event) => {
         event.preventDefault();

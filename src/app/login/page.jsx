@@ -1,6 +1,6 @@
 "use client"
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -12,6 +12,12 @@ function LoginPage() {
     const [error, setError] = useState("");
 
     const router = useRouter()
+
+    const { data: session, status } = useSession()
+
+
+    if (status == "authenticated") router.replace("/welcome");
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -25,7 +31,7 @@ function LoginPage() {
                 setError('Invalid credentials')
                 return
             }
-            console.log("🚀 ~ handleSubmit ~ res:", res)
+
 
             router.replace('/welcome')
 
